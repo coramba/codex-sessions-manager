@@ -68,13 +68,13 @@ const showEmptyModel = computed({
         class="ml-2"
       />
       <v-btn
-        color="primary"
+        color="secondary"
         variant="flat"
-        size="small"
+        size="large"
         class="refresh-btn"
         @click="emit('refresh')"
       >
-        <v-icon size="16" class="mr-1" icon="mdi-refresh"></v-icon>
+        <v-icon size="18" class="mr-1" icon="mdi-refresh"></v-icon>
         Refresh
       </v-btn>
     </div>
