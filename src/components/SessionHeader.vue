@@ -88,7 +88,7 @@ const showEmptyModel = computed({
   z-index: 10;
   padding: 16px 0 22px;
   margin: 0;
-  background: rgba(244, 246, 248, 0.88);
+  background: rgba(232, 235, 240, 0.92);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
