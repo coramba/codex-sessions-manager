@@ -1,3 +1,12 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+  <img src="https://img.shields.io/github/languages/top/coramba/codex-sessions-manager" alt="Top Language">
+  <img src="https://img.shields.io/badge/Framework-Vue%203-42b883" alt="Vue 3">
+  <img src="https://img.shields.io/badge/UI-Vuetify%203-1867c0" alt="Vuetify 3">
+  <img src="https://img.shields.io/badge/Bundler-Vite-646cff" alt="Vite">
+  <img src="https://img.shields.io/github/stars/coramba/codex-sessions-manager?style=social" alt="GitHub Stars">
+</p>
+
 # Codex Sessions Manager
 
 Single-page Vue + Vuetify app for browsing Codex agent session archives. This guide covers deploying on a Windows machine that uses WSL2 for Codex, with Node running inside a Docker container and sessions stored in WSL.
