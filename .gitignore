@@ -12,6 +12,7 @@ pnpm-debug.log*
 # Environment
 .env
 .env.local
+AGENTS.md
 
 # IDE/editor
 .idea/
