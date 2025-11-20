@@ -1,4 +1,6 @@
 export const NO_REQUEST_TEXT = 'No user request found';
+export const MAX_GAP_MS = 25 * 60 * 1000; // cap normal inactivity gaps at 25 minutes
+export const INTERRUPT_GAP_MS = 60 * 60 * 1000; // treat gaps over an hour as session breaks
 
 const isInstructionText = (text) => {
   if (typeof text !== 'string') return false;
@@ -116,7 +118,7 @@ const collectMessages = (entries) => {
     .filter((msg) => msg.role === 'user' || msg.role === 'assistant');
 };
 
-const computeActiveDuration = (entries, maxGapMs) => {
+const computeActiveDuration = (entries) => {
   let total = 0;
   let lastTs = null;
 
@@ -127,7 +129,11 @@ const computeActiveDuration = (entries, maxGapMs) => {
     if (lastTs !== null) {
       const diff = ts - lastTs;
       if (diff > 0) {
-        total += Math.min(diff, maxGapMs);
+        if (diff > INTERRUPT_GAP_MS) {
+          // Very large gaps indicate the user left entirely; skip counting them.
+        } else {
+          total += Math.min(diff, MAX_GAP_MS);
+        }
       }
     }
 
@@ -137,11 +143,11 @@ const computeActiveDuration = (entries, maxGapMs) => {
   return total;
 };
 
-const parseSingleSession = ({ path, raw }, maxGapMs) => {
+const parseSingleSession = ({ path, raw }) => {
   const entries = parseJsonBlocks(raw);
   const messages = collectMessages(entries);
   const userCommandCount = messages.filter((msg) => msg.role === 'user').length;
-  const activeMs = computeActiveDuration(entries, maxGapMs);
+  const activeMs = computeActiveDuration(entries);
 
   const first = entries[0] || {};
   const last = entries[entries.length - 1] || {};
@@ -169,7 +175,7 @@ const parseSingleSession = ({ path, raw }, maxGapMs) => {
   };
 };
 
-export const parseSessions = (rawFiles, { maxGapMs = 20 * 60 * 1000 } = {}) =>
+export const parseSessions = (rawFiles) =>
   (rawFiles || [])
-    .map((file) => parseSingleSession(file, maxGapMs))
+    .map((file) => parseSingleSession(file))
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

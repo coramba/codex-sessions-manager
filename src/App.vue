@@ -4,22 +4,15 @@ import ChatDialog from './components/ChatDialog.vue';
 import SessionCard from './components/SessionCard.vue';
 import SessionHeader from './components/SessionHeader.vue';
 import { loadSessions } from './utils/sessionApi';
-import {
-  NO_REQUEST_TEXT,
-  formatDate,
-  formatDuration,
-  parseSessions,
-} from './utils/sessionParsing';
+import { NO_REQUEST_TEXT, formatDate, formatDuration, parseSessions } from './utils/sessionParsing';
 import { projectTone } from './utils/projectTone';
-
-const MAX_GAP_MS = 10 * 60 * 1000; // cap inactivity gaps at 10 minutes
 
 const rawSessionFiles = ref([]);
 
 const showEmpty = ref(false);
 
 const sessions = computed(() => {
-  let list = parseSessions(rawSessionFiles.value, { maxGapMs: MAX_GAP_MS });
+  let list = parseSessions(rawSessionFiles.value);
   if (!showEmpty.value) {
     list = list.filter((session) => session.firstRequest !== NO_REQUEST_TEXT);
   }
